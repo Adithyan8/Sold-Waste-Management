@@ -17,12 +17,7 @@ class TUser(Address):
     full_name=models.CharField(blank=False,max_length=50)
     email=models.EmailField(blank=False)
     phone = PhoneField(blank=True, help_text='Contact phone number')
-    choices_gender=(
-        ('MALE','MALE'),
-        ('FEMALE','FEMALE'),
-        ('OTHER','OTHER')
-    )
-    gender=models.CharField(max_length=20,choices=choices_gender,blank=False)
+
     def __str__(self): 
          return self.full_name
 
@@ -37,10 +32,10 @@ class ProcesssingPlant(OrganisationAddress):
     pp_id=models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     ppname=models.CharField(blank=False,max_length=100)
     total_waste=models.IntegerField(blank=False,null=False,validators=[MaxValueValidator(99999),MinValueValidator(0)])
-    waste_recycled=models.IntegerField(blank=False,null=False,validators=[MaxValueValidator(99999),MinValueValidator(0)])
-    def get_lw(self):
-        return self.total_waste-self.waste_recycled
-    landfill_Waste=property(get_lw)
+    landfill_waste=models.IntegerField(blank=False,null=False,validators=[MaxValueValidator(99999),MinValueValidator(0)])
+    def get_rw(self):
+        return self.total_waste-self.landfill_waste
+    recycled_Waste=property(get_rw)
 
     def __str__(self):
         return self.ppname
