@@ -1,25 +1,36 @@
 from django.db import models
 import uuid
-from phone_field import PhoneField
 from django.utils import timezone
 from django.core.validators import MinValueValidator,MaxValueValidator
+from django.contrib import auth
 
-
-class Address(models.Model):
+""" class Address(models.Model):
     area=models.CharField(max_length=150,blank=False)
     landmark=models.CharField(max_length=150,blank=True)
     city=models.CharField(max_length=50,blank=False)
     state=models.CharField(max_length=30,blank=False)
     zipcode=models.IntegerField(validators=[MaxValueValidator(999999),MinValueValidator(100000)],blank=False)
+ """
+""" class TUser(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    area=models.CharField(max_length=150,blank=False)
+    landmark=models.CharField(max_length=150,blank=True)
+    city=models.CharField(max_length=50,blank=False)
+    state=models.CharField(max_length=30,blank=False)
+    zipcode=models.IntegerField(validators=[MaxValueValidator(999999),MinValueValidator(100000)],blank=False) """
+class TUser(auth.models.User, auth.models.PermissionsMixin):
+    area=models.CharField(max_length=150,blank=False)
+    landmark=models.CharField(max_length=150,blank=True)
+    city=models.CharField(max_length=50,blank=False)
+    state=models.CharField(max_length=30,blank=False)
+    zipcode=models.IntegerField(validators=[MaxValueValidator(999999),MinValueValidator(100000)],blank=False)
+    
+    def __str__(self):
+        return "@{}".format(self.username)
 
-class TUser(Address):
-    user_id=models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    full_name=models.CharField(blank=False,max_length=50)
-    email=models.EmailField(blank=False)
-    phone = PhoneField(blank=True, help_text='Contact phone number')
-
+""" 
     def __str__(self): 
-         return self.full_name
+         return self.user.username """
 
 class OrganisationAddress(models.Model):
     area=models.CharField(max_length=150,blank=False)
