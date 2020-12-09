@@ -37,4 +37,5 @@ urlpatterns = [
          name='password_reset_complete'),
     #path('home/', views.Home.as_view(template_name='users/home.html'),name='home'),
     path('home/', views.home,name='home'),
+    path('home/waste-form', views.waste_form,name='waste_form'),
 ]

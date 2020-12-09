@@ -1,7 +1,7 @@
 from django import forms
 #from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import TUser
+from .models import TUser,Waste
 
 """ class UserRegisterForm(UserCreationForm,forms.ModelForm):
     email = forms.EmailField() #by default required-true
@@ -26,3 +26,15 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = TUser
         fields = ['username', 'email','area','landmark','city','state','zipcode']
+
+class WasteGenerationForm(forms.ModelForm):
+    class Meta:
+        model = Waste
+        fields = ['type_waste', 'created_date','quantity','tv']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["type_waste"].label = "Type of Waste"
+        self.fields["created_date"].label = "Date of Collection"
+        self.fields["quantity"].label = "Quantity(in kgs)"
+        self.fields["tv"].label = "Transport Vehicle"
