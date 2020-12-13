@@ -32,8 +32,8 @@ class WasteGenerationForm(forms.ModelForm):
         model = Waste
         fields = ['type_waste', 'created_date','quantity','tv']
         
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self,*args, **kwargs):
+        super(WasteGenerationForm,self).__init__(*args, **kwargs) 
         self.fields["type_waste"].label = "Type of Waste"
         self.fields["created_date"].label = "Date of Collection"
         self.fields["quantity"].label = "Quantity(in kgs)"

@@ -39,15 +39,32 @@ def home(request):
 @login_required
 def waste_form(request):
     if request.method=='POST':
-        form = WasteGenerationForm(request.POST)
-        if form.is_valid():
-            form.save()
+        waste_form = WasteGenerationForm(request.POST)
+        if waste_form.is_valid():
+            formm = waste_form.save(commit=False)
+            my_p =request.user
+            formm.tpuser = my_p
+            formm.save()
             messages.success(request,f'Your new entry has been added.')
             return redirect(r'home')
     else:    
-        form = WasteGenerationForm()
-    return render(request,'utility/waste_form.html',{'form':form})
+        waste_form = WasteGenerationForm()
+    return render(request,'utility/waste_form.html',{'form':waste_form})
 
     def save(self):
-        form.instance.tpuser = self.request.tuser
+        waste_form.instance.tpuser = self.request.tuser
         return super().save()
+        
+# def InvestView(request):
+#     if request.method == 'POST':
+#         investment_form = InvestorsForm(request.POST)
+#         if investment_form.is_valid():
+#             saving = investment_form.save(commit=False)
+#             saving.investor.user = request.user
+#             saving.save()
+#             messages.success(request, f'New Investment Done!')
+#             return redirect('/myinvest/')
+#     else:
+#         investment_form = InvestorsForm()
+#     context = {'investment_form': investment_form}
+#     return render(request, 'investors/form.html', context)

@@ -80,7 +80,7 @@ class Landfill(OrganisationAddress):
 
 class Waste(models.Model):
     waste_id=models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    tpuser= models.ForeignKey(TUser,on_delete=models.DO_NOTHING)
+    tpuser= models.ForeignKey('auth.User',on_delete=models.DO_NOTHING)
     choices_type=(
         ('Recyable','Recyable'),
         ('Non-Recyable','Non-Recyable')
