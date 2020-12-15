@@ -11,7 +11,7 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView)
-from .models import TUser,Waste
+from .models import TUser,Waste,ProcesssingPlant,TransportVehicle,Landfill
 
 def register(request):
     if request.method=='POST':
@@ -30,13 +30,6 @@ def home(request):
     waste_list = Waste.objects.filter(tpuser=wuser)
     return render(request,'users/home.html',{'waste_list':waste_list}) 
 
-""" class Home(ListView):
-    model = TUser
-    template_name='users/home.html'
-    context_object_name='tuser'     #variable to be used in templates(variable that has all posts)
-    #ordering = ['-date_posted']     #orders according to date_posted. date_posted - oldest to newest
-    #paginate_by=4  """
-
 @login_required
 def waste_form(request):
     if request.method=='POST':
@@ -46,15 +39,29 @@ def waste_form(request):
             my_p =request.user
             formm.tpuser = my_p
             formm.save()
+
+            #saving data to processing plant
+            transvehicle = formm.tv
+            tv_pp = transvehicle.pp
+            pp_temp = ProcesssingPlant.objects.get(pp_id=tv_pp.pp_id)
+            pp_temp.total_waste+=formm.quantity
+            if(formm.type_waste == 'Non-Recyable'):
+                pp_temp.landfill_waste+=formm.quantity
+            pp_temp.save()
+
+            #saving data to Landfill
+            ll_temp = Landfill.objects.filter(pp=pp_temp)
+            if(formm.type_waste == 'Non-Recyable'):
+                for ll in ll_temp:
+                    if formm.quantity+ll.capacity_filled <= ll.maximum_capacity :
+                        ll.capacity_filled+=formm.quantity
+                        ll.save()
+                        break
             messages.success(request,f'Your new entry has been added.')
             return redirect(r'home')
     else:    
         waste_form = WasteGenerationForm()
     return render(request,'utility/waste_form.html',{'form':waste_form})
-
-    """ def save(self):
-        waste_form.instance.tpuser = self.request.tuser
-        return super().save() """
 
 """ class UserWasteList(ListView):
     model = Waste
@@ -67,8 +74,3 @@ def waste_form(request):
         #wasteuser = Waste.objects.filter(tpuser=user).first()
         return Waste.objects.filter(tpuser=user).order_by('-created_date')
          """
-
-def user_waste_list(request,*args,**kwargs):
-    wuser = request.user
-    waste_list = Waste.objects.filter(tpuser=wuser)
-    return render(request,'users/user_waste.html',{'tuser':wuser,'waste_list':waste_list})
