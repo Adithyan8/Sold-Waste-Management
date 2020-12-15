@@ -38,4 +38,5 @@ urlpatterns = [
     #path('home/', views.Home.as_view(template_name='users/home.html'),name='home'),
     path('home/', views.home,name='home'),
     path('home/waste-form', views.waste_form,name='waste_form'),
+    path('home/user-waste/', views.user_waste_list,name='waste_user_list'),
 ]

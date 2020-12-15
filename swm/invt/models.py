@@ -28,10 +28,6 @@ class TUser(auth.models.User, auth.models.PermissionsMixin):
     def __str__(self):
         return "@{}".format(self.username)
 
-""" 
-    def __str__(self): 
-         return self.user.username """
-
 class OrganisationAddress(models.Model):
     area=models.CharField(max_length=150,blank=False)
     landmark=models.CharField(max_length=150,blank=True)

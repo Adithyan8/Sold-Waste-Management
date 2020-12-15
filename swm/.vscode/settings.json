@@ -1,3 +1,10 @@
 {
-    "python.pythonPath": "/Users/honeygupta/opt/anaconda3/envs/quan/bin/python"
+    "python.pythonPath": "/Users/honeygupta/opt/anaconda3/envs/quan/bin/python",
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"
+    ],
+
+    "[python]": {
+
+    }
 }

@@ -32,8 +32,20 @@
             <div class="media">
                 <div class="media-body">
                     <h4><strong>List of waste forms filled:</strong></h4>
-                    <br><br>
-                    
+                    <br>
+                    {%for waste in waste_list%}
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h4>ID : {{waste.waste_id}}</h4>
+                                    <p>Date : {{waste.created_date|date:"d F,Y"}}</p>
+                                    <p>Type of Waste : {{waste.type_waste}}</p>
+                                    <p>Quantity : {{waste.quantity}}</p>  
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    {%endfor%}
                 </div>
             </div>
         </div>

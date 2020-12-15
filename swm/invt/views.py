@@ -26,8 +26,9 @@ def register(request):
 
 @login_required
 def home(request):
-    #tuser = TUser.objects.get(username=username)
-    return render(request,'users/home.html',{}) 
+    wuser = request.user
+    waste_list = Waste.objects.filter(tpuser=wuser)
+    return render(request,'users/home.html',{'waste_list':waste_list}) 
 
 """ class Home(ListView):
     model = TUser
@@ -51,20 +52,23 @@ def waste_form(request):
         waste_form = WasteGenerationForm()
     return render(request,'utility/waste_form.html',{'form':waste_form})
 
-    def save(self):
+    """ def save(self):
         waste_form.instance.tpuser = self.request.tuser
-        return super().save()
-        
-# def InvestView(request):
-#     if request.method == 'POST':
-#         investment_form = InvestorsForm(request.POST)
-#         if investment_form.is_valid():
-#             saving = investment_form.save(commit=False)
-#             saving.investor.user = request.user
-#             saving.save()
-#             messages.success(request, f'New Investment Done!')
-#             return redirect('/myinvest/')
-#     else:
-#         investment_form = InvestorsForm()
-#     context = {'investment_form': investment_form}
-#     return render(request, 'investors/form.html', context)
+        return super().save() """
+
+""" class UserWasteList(ListView):
+    model = Waste
+    template_name='users/user_waste.html'
+    context_object_name='waste_list'
+    
+    
+    def get_queryset(self,*args,**kwargs):
+        user = get_object_or_404(User,username=self.kwargs.get('username'))
+        #wasteuser = Waste.objects.filter(tpuser=user).first()
+        return Waste.objects.filter(tpuser=user).order_by('-created_date')
+         """
+
+def user_waste_list(request,*args,**kwargs):
+    wuser = request.user
+    waste_list = Waste.objects.filter(tpuser=wuser)
+    return render(request,'users/user_waste.html',{'tuser':wuser,'waste_list':waste_list})
