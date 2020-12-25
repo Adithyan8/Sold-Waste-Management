@@ -28,7 +28,12 @@ def register(request):
 def home(request):
     wuser = request.user
     waste_list = Waste.objects.filter(tpuser=wuser)
-    return render(request,'users/home.html',{'waste_list':waste_list}) 
+    waste_list_admin = Waste.objects.all()
+    tv_list = TransportVehicle.objects.all()
+    pp_list = ProcesssingPlant.objects.all()
+    lf_list = Landfill.objects.all()
+    return render(request,'users/home.html',{'waste_list':waste_list,
+    'waste_list_admin':waste_list_admin,'tv_list':tv_list,'pp_list':pp_list,'lf_list':lf_list,}) 
 
 @login_required
 def waste_form(request):
@@ -62,7 +67,6 @@ def waste_form(request):
     else:    
         waste_form = WasteGenerationForm()
     return render(request,'utility/waste_form.html',{'form':waste_form})
-
 """ class UserWasteList(ListView):
     model = Waste
     template_name='users/user_waste.html'

@@ -15,6 +15,138 @@
         </div>
     </div>
     <br>
+
+    <!-- For super users -->
+    {% if user.is_authenticated and user.is_superuser %}
+    <div class="card">
+        <div class="card-body">
+            <h4>Waste</h4>
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+            
+                <tbody>
+            
+                  {% for waste in waste_list_admin %}
+            
+                  <tr>
+                    <td>{{ waste.waste_id }}
+                    <td>{{ waste.type_waste }}</td>
+                    <td>{{ waste.created_date }} </td>
+                    <td>{{ waste.quantity }}</td>
+                  </tr>
+            
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-body">
+            <h4>Transport Vehicle</h4>
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Plate Number</th>
+                    <th>Capacity</th>
+                    <th>Pincode assigned to</th>
+                  </tr>
+                </thead>
+            
+                <tbody>
+            
+                  {% for tv in tv_list %}
+            
+                  <tr>
+                    <td>{{ tv.tv_id }}
+                    <td>{{ tv.plate_number }}</td>
+                    <td>{{ tv.capacity }} </td>
+                    <td>{{ tv.pincode }}</td>
+                  </tr>
+            
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-body">
+            <h4>Processing Plant</h4>
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Total Waste*</th>
+                    <th>Landill Waste*</th>
+                  </tr>
+                </thead>
+            
+                <tbody>
+            
+                  {% for pp in pp_list %}
+            
+                  <tr>
+                    <td>{{ pp.pp_id }}
+                    <td>{{ pp.ppname }}</td>
+                    <td>{{ pp.total_waste }} </td>
+                    <td>{{ pp.landfill_waste }}</td>
+                  </tr>
+            
+                  {% endfor %}
+                </tbody>
+            </table>
+            <p>*Total Waste - Total waste collected by the Processing plant until now</p>
+            <p>*Landfill Waste - Total waste sent to Landfill until now</p>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-body">
+            <h4>Landill</h4>
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Maximum Capacity</th>
+                    <th>Capacity Filled</th>
+                  </tr>
+                </thead>
+            
+                <tbody>
+            
+                  {% for lf in lf_list %}
+            
+                  <tr>
+                    <td>{{ lf.lf_id }}
+                    <td>{{ lf.lfname }}</td>
+                    <td>{{ lf.maximum_capacity }}</td>
+                    <td>{{ lf.capacity_filled }}</td>
+                  </tr>
+            
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    {% endif %}
+
+    <!-- For normal users -->
+    {% if user.is_authenticated and not user.is_superuser %}
     <div class="card">
         <div class="card-body">
             <div class="media">
@@ -50,16 +182,5 @@
             </div>
         </div>
     </div>
-    <!-- <div class="content-section">
-        <form method="POST" enctype="multipart/form-data">{% csrf_token %} enctype="....." - It is used to save data from multiple forms at once
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4"><strong>Profile Information</strong></legend>
-                {{ u_form|crispy }}
-                {{ p_form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Update</button>
-            </div>
-        </form>
-    </div> -->
+    {% endif %}
 {%endblock content%}
