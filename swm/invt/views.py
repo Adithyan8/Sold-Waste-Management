@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .forms import UserRegisterForm,UserUpdateForm,WasteGenerationForm,LfGenerationForm,PpGenerationForm,TvGenerationForm
+from .forms import UserRegisterForm,UserUpdateForm,WasteGenerationForm,LfGenerationForm,PpGenerationForm,TvGenerationForm,TvUpdateForm,LfUpdateForm,PpUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
@@ -108,4 +108,45 @@ def lf_form(request):
     else:    
         lf_form = LfGenerationForm()
     return render(request,'utility/lf_form.html',{'form':lf_form})
+@login_required
+def delete_tv(request, pk):
+
+    template = 'users/home.html'
+    TransportVehicle.objects.filter(tv_id=pk).delete()
+    return redirect(r'home')
+@login_required
+def delete_pp(request, pk):
+
+    template = 'users/home.html'
+    ProcesssingPlant.objects.filter(pp_id=pk).delete()
+    return redirect(r'home')
+@login_required
+def delete_lf(request, pk):
+
+    template = 'users/home.html'
+    Landfill.objects.filter(lf_id=pk).delete()
+    return redirect(r'home')
+def edit_item(request, pk, model, cls):
+    item = get_object_or_404(model, pk=pk)
+
+    if request.method == "POST":
+        form = cls(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect(r'home')
+    else:
+        form = cls(instance=item)
+        return render(request, 'utility/edit_item.html', {'form': form})
+
+
+def update_tv(request, pk):
+    return edit_item(request, pk, TransportVehicle, TvUpdateForm)
+
+
+def update_pp(request, pk):
+    return edit_item(request, pk, ProcesssingPlant, PpUpdateForm)
+
+
+def update_lf(request, pk):
+    return edit_item(request, pk, Landfill, LfUpdateForm)
 

@@ -73,6 +73,10 @@
                     <td>{{ tv.capacity }} </td>
                     <td>{{ tv.pincode }}</td>
                     <td>{{ tv.pp }}</td>
+                    <td>
+                      <a href="{% url 'update_tv' tv.pk %}" class="btn btn-warning btn-sm" role="button" aria-pressed="true" > Edit</a>
+                      <a href="{% url 'delete_tv' tv.pk%}" class="btn btn-danger btn-sm" role="button" aria-pressed="true" > X</a>
+                  </td>
                   </tr>
             
                   {% endfor %}
@@ -92,6 +96,7 @@
                     <th>Name</th>
                     <th>Total Waste*</th>
                     <th>Landill Waste*</th>
+                    
                   </tr>
                 </thead>
             
@@ -103,6 +108,10 @@
                     <td>{{ pp.ppname }}</td>
                     <td>{{ pp.total_waste }} </td>
                     <td>{{ pp.landfill_waste }}</td>
+                    <td>
+                      <a href="{% url 'update_pp' pp.pk %}" class="btn btn-warning btn-sm" role="button" aria-pressed="true" > Edit</a>
+                      <a href="{% url 'delete_pp' pp.pk%}" class="btn btn-danger btn-sm" role="button" aria-pressed="true" > X</a>
+                  </td>
                   </tr>
             
                   {% endfor %}
@@ -138,6 +147,10 @@
                     <td>{{ lf.maximum_capacity }}</td>
                     <td>{{ lf.capacity_filled }}</td>
                     <td>{{ lf.pp }}</td>
+                    <td>
+                      <a href="{% url 'update_lf' lf.pk %}" class="btn btn-warning btn-sm" role="button" aria-pressed="true" > Edit</a>
+                      <a href="{% url 'delete_lf' lf.pk%}" class="btn btn-danger btn-sm" role="button" aria-pressed="true" > X</a>
+                  </td>
                   </tr>
             
                   {% endfor %}

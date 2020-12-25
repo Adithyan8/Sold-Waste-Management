@@ -41,4 +41,12 @@ urlpatterns = [
     path('home/tv-form', views.tv_form,name='tv_form'),
     path('home/pp-form', views.pp_form,name='pp_form'),
     path('home/lf-form', views.lf_form,name='lf_form'),
+
+    path('home/tv/edit_item/<uuid:pk>', views.update_tv, name="update_tv"),
+    path('home/pp/edit_item/<uuid:pk>', views.update_pp, name="update_pp"),
+    path('home/lf/edit_item/<uuid:pk>', views.update_lf, name="update_lf"),
+
+    path('home/tv/delete/<uuid:pk>', views.delete_tv, name="delete_tv"),
+    path('home/lf/delete/<uuid:pk>', views.delete_lf, name="delete_lf"),
+    path('home/pp/delete/<uuid:pk>', views.delete_pp, name="delete_pp")
 ]
