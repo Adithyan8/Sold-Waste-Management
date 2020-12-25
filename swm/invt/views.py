@@ -12,18 +12,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView)
 from .models import TUser,Waste,ProcesssingPlant,TransportVehicle,Landfill,WasteML
+import csv
 
-with open('your.csv', 'wb') as csvfile:
-
-def export_to_csv():
-    writer = csv.writer(csvfile)
-    writer = csv.DictWriter(csvfile, fieldnames = field_names) 
-    writer.writeheader() 
-    for obj in YourModel.objects.all():
-        row = ""
-        for field in fields:
-             row += getattr(obj, field.name) + ","
-        writer.writerow(row)
+from django.http import HttpResponse
 
 def register(request):
     if request.method=='POST':
@@ -168,3 +159,15 @@ def update_pp(request, pk):
 def update_lf(request, pk):
     return edit_item(request, pk, Landfill, LfUpdateForm)
 
+def export(request):
+    response = HttpResponse(content_type='text/csv')
+
+    writer = csv.writer(response)
+    writer.writerow(['Processing Plant', 'Date', 'Waste'])
+
+    for member in WasteML.objects.all().values_list('ppname', 'date', 'waste_qty'):
+        writer.writerow(member)
+
+    response['Content-Disposition'] = 'attachment; filename="waste.csv"'
+
+    return response

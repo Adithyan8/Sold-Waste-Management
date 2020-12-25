@@ -19,6 +19,8 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from invt import views
+from django.shortcuts import render
+from django.http import HttpResponse
 
 
 urlpatterns = [
@@ -48,5 +50,6 @@ urlpatterns = [
 
     path('home/tv/delete/<uuid:pk>', views.delete_tv, name="delete_tv"),
     path('home/lf/delete/<uuid:pk>', views.delete_lf, name="delete_lf"),
-    path('home/pp/delete/<uuid:pk>', views.delete_pp, name="delete_pp")
+    path('home/pp/delete/<uuid:pk>', views.delete_pp, name="delete_pp"),
+    path('home/wasteml/export', views.export, name="export")
 ]
