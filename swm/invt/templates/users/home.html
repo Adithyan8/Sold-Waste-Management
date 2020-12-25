@@ -78,6 +78,7 @@
                   {% endfor %}
                 </tbody>
             </table>
+            <a href="{% url 'tv_form' %}" class="btn btn-outline-info">Create Transport Vehicle</a>
         </div>
     </div>
     <br>
@@ -109,6 +110,8 @@
             </table>
             <p>*Total Waste - Total waste collected by the Processing plant until now</p>
             <p>*Landfill Waste - Total waste sent to Landfill until now</p>
+            <br>
+            <a href="{% url 'pp_form' %}" class="btn btn-outline-info">Create Processing Plant</a>
         </div>
     </div>
     <br>
@@ -140,6 +143,7 @@
                   {% endfor %}
                 </tbody>
             </table>
+            <a href="{% url 'lf_form' %}" class="btn btn-outline-info">Create Landfill</a>
         </div>
     </div>
     <br>

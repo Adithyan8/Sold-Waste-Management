@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .forms import UserRegisterForm,UserUpdateForm,WasteGenerationForm
+from .forms import UserRegisterForm,UserUpdateForm,WasteGenerationForm,LfGenerationForm,PpGenerationForm,TvGenerationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
@@ -78,3 +78,34 @@ def waste_form(request):
         #wasteuser = Waste.objects.filter(tpuser=user).first()
         return Waste.objects.filter(tpuser=user).order_by('-created_date')
          """
+@login_required
+def tv_form(request):
+    if request.method=='POST':
+        tv_form = TvGenerationForm(request.POST)
+        if tv_form.is_valid():
+            tv_form.save()
+            return redirect(r'home')
+    else:    
+        tv_form = TvGenerationForm()
+    return render(request,'utility/tv_form.html',{'form':tv_form})
+@login_required
+def pp_form(request):
+    if request.method=='POST':
+        pp_form = PpGenerationForm(request.POST)
+        if pp_form.is_valid():
+            pp_form.save()
+            return redirect(r'home')
+    else:    
+        pp_form = PpGenerationForm()
+    return render(request,'utility/pp_form.html',{'form':pp_form})
+@login_required
+def lf_form(request):
+    if request.method=='POST':
+        lf_form = LfGenerationForm(request.POST)
+        if lf_form.is_valid():
+            lf_form.save()
+            return redirect(r'home')
+    else:    
+        lf_form = LfGenerationForm()
+    return render(request,'utility/lf_form.html',{'form':lf_form})
+
