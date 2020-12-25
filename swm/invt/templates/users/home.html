@@ -28,6 +28,7 @@
                     <th>Type</th>
                     <th>Date</th>
                     <th>Quantity</th>
+                    <th>Transport Vehicle</th>
                   </tr>
                 </thead>
             
@@ -40,6 +41,7 @@
                     <td>{{ waste.type_waste }}</td>
                     <td>{{ waste.created_date }} </td>
                     <td>{{ waste.quantity }}</td>
+                    <td>{{ waste.tv }}</td>
                   </tr>
             
                   {% endfor %}
@@ -55,10 +57,10 @@
             <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>Id</th>
                     <th>Plate Number</th>
                     <th>Capacity</th>
                     <th>Pincode assigned to</th>
+                    <th>Processing Plant</th>
                   </tr>
                 </thead>
             
@@ -67,10 +69,10 @@
                   {% for tv in tv_list %}
             
                   <tr>
-                    <td>{{ tv.tv_id }}
                     <td>{{ tv.plate_number }}</td>
                     <td>{{ tv.capacity }} </td>
                     <td>{{ tv.pincode }}</td>
+                    <td>{{ tv.pp }}</td>
                   </tr>
             
                   {% endfor %}
@@ -86,7 +88,6 @@
             <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>Id</th>
                     <th>Name</th>
                     <th>Total Waste*</th>
                     <th>Landill Waste*</th>
@@ -98,7 +99,6 @@
                   {% for pp in pp_list %}
             
                   <tr>
-                    <td>{{ pp.pp_id }}
                     <td>{{ pp.ppname }}</td>
                     <td>{{ pp.total_waste }} </td>
                     <td>{{ pp.landfill_waste }}</td>
@@ -115,14 +115,14 @@
 
     <div class="card">
         <div class="card-body">
-            <h4>Landill</h4>
+            <h4>Landfill</h4>
             <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>Id</th>
                     <th>Name</th>
                     <th>Maximum Capacity</th>
                     <th>Capacity Filled</th>
+                    <th>Processing Plant</th>
                   </tr>
                 </thead>
             
@@ -131,10 +131,10 @@
                   {% for lf in lf_list %}
             
                   <tr>
-                    <td>{{ lf.lf_id }}
                     <td>{{ lf.lfname }}</td>
                     <td>{{ lf.maximum_capacity }}</td>
                     <td>{{ lf.capacity_filled }}</td>
+                    <td>{{ lf.pp }}</td>
                   </tr>
             
                   {% endfor %}

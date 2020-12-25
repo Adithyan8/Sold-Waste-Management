@@ -76,7 +76,7 @@ class Landfill(OrganisationAddress):
 
 class Waste(models.Model):
     waste_id=models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    tpuser= models.ForeignKey('auth.User',on_delete=models.DO_NOTHING)
+    tpuser= models.ForeignKey('auth.User',null=True,on_delete=models.SET_NULL)
     choices_type=(
         ('Recyable','Recyable'),
         ('Non-Recyable','Non-Recyable')
@@ -84,7 +84,7 @@ class Waste(models.Model):
     type_waste=models.CharField(max_length=20,choices=choices_type,blank=False)
     created_date = models.DateField(default=timezone.now)
     quantity=models.IntegerField(blank=False,null=False,validators=[MaxValueValidator(99999),MinValueValidator(0)])
-    tv = models.ForeignKey(TransportVehicle,blank=True,on_delete=models.DO_NOTHING)
+    tv = models.ForeignKey(TransportVehicle,blank=True,null=True,on_delete=models.SET_NULL)
 
 
 
