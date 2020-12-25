@@ -163,9 +163,9 @@ def export(request):
     response = HttpResponse(content_type='text/csv')
 
     writer = csv.writer(response)
-    writer.writerow(['Processing Plant', 'Date', 'Waste'])
+    writer.writerow(['Date', 'Waste'])
 
-    for member in WasteML.objects.all().values_list('ppname', 'date', 'waste_qty'):
+    for member in WasteML.objects.all().values_list('date', 'waste_qty'):
         writer.writerow(member)
 
     response['Content-Disposition'] = 'attachment; filename="waste.csv"'
