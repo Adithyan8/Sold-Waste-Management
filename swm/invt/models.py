@@ -87,7 +87,10 @@ class Waste(models.Model):
     tv = models.ForeignKey(TransportVehicle,blank=True,null=True,on_delete=models.SET_NULL)
 
 
-
+class WasteML(models.Model):
+    ppname = models.ForeignKey(ProcesssingPlant,on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now)
+    waste_qty = models.IntegerField(blank=False,null=False)
 
     
 

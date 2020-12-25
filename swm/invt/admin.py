@@ -6,4 +6,5 @@ admin.site.register(Waste)
 admin.site.register(ProcesssingPlant)
 admin.site.register(TransportVehicle)
 admin.site.register(Landfill)
+admin.site.register(WasteML)
 

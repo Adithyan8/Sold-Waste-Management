@@ -5,11 +5,11 @@
         <div class="card-body">
             <div class="media">
                 <div class="media-body">
-                    <h2 class="account-heading">{{ user.username }}</h2>
-                    <p class="text-secondary">{{ user.email }}</p>
-                    <p class="text-secondary">{{ user.area }}</p>
-                    <p class="text-secondary">{{ user.city }}</p>
-                    <p class="text-secondary">{{ user.zipcode }}</p>
+                    <h2 class="account-heading">Welcome {{ wuser.username }},</h2>
+                    <p class="account-heading">{{ wuser.email }}</p>
+                    <small class="account-heading"><em>Last Login : {{ wuser.last_login }}</em></small>
+                    <br>
+                    <small class="account-heading"><em>Member since : {{ wuser.date_joined|date:"d F,Y" }}</em></small>
                 </div>
             </div>
         </div>
