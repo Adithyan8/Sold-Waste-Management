@@ -15,6 +15,7 @@ from .models import TUser,Waste,ProcesssingPlant,TransportVehicle,Landfill,Waste
 import csv
 
 from django.http import HttpResponse
+
 def export(request):
     response = HttpResponse(content_type='text/csv')
 
@@ -28,8 +29,6 @@ def export(request):
 
     return response
 
-
-
 def mlscript():
     import pandas as pd
     import numpy as np
@@ -38,7 +37,7 @@ def mlscript():
     import os
     import seaborn as sns
     BASE_DIR = Path(__file__).resolve().parent.parent
-    path=os.path.join(BASE_DIR,'invt/templates/users/ml.csv')
+    path=os.path.join(BASE_DIR,'invt/dataset/waste.csv')
     
     df=pd.read_csv(path)
     df.sort_values(by=['Date'],axis=0,inplace=True)
@@ -106,11 +105,11 @@ def mlscript():
     from django.http import HttpResponse
     from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
     from matplotlib.figure import Figure
-    fig = plt.figure()
+    fig = plt.figure(figsize=(9,7))
     plt.plot(x1,y1)
     plt.xlabel('Timeframe')
     plt.ylabel('Waste')
-    plt.title('Waste vs Date')
+    plt.title('Waste vs Timeframe')
     imgdata = StringIO()
     fig.savefig(imgdata, format='svg')
     imgdata.seek(0)
@@ -118,7 +117,7 @@ def mlscript():
     return data
 def graphh(request):
     #context['graph'] = mlscript()
-    export(request)
+    #export(request)
     
     return render(request, 'utility/graph.html', {'graph':mlscript()})
 
@@ -141,7 +140,7 @@ def home(request):
     tv_list = TransportVehicle.objects.all()
     pp_list = ProcesssingPlant.objects.all()
     lf_list = Landfill.objects.all()
-    mlscript()
+    export(request)
     return render(request,'users/home.html',{'wuser':wuser,'waste_list':waste_list,
     'waste_list_admin':waste_list_admin,'tv_list':tv_list,'pp_list':pp_list,'lf_list':lf_list,}) 
 
