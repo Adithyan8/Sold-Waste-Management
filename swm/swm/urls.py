@@ -53,4 +53,5 @@ urlpatterns = [
     path('home/pp/delete/<uuid:pk>', views.delete_pp, name="delete_pp"),
     path('home/wasteml/export', views.export, name="export"),
     path('home/wasteml/graph', views.graphh, name="graph"),
+    path('home/wasteml/list',views.WasteMLView.as_view(),name="wasteml_data"),
 ]

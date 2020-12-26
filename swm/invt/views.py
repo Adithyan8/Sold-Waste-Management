@@ -265,3 +265,25 @@ def update_pp(request, pk):
 def update_lf(request, pk):
     return edit_item(request, pk, Landfill, LfUpdateForm)
 
+from rest_framework.generics import ListCreateAPIView,GenericAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.mixins import ListModelMixin,CreateModelMixin
+from .serializers import *
+
+class WasteMLView(GenericAPIView,CreateModelMixin,ListModelMixin):
+    queryset = WasteML.objects.all()
+    serializer_class = WasteMLListSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, *kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+        
+class WasteMLupdateView(RetrieveUpdateDestroyAPIView):
+    queryset = WasteML.objects.all()
+    serializer_class = WasteMLEditSerializer
+

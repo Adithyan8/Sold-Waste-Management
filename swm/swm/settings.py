@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'invt',
     'crispy_forms',
     'import_export',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
