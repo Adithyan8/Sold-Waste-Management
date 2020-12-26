@@ -15,6 +15,112 @@ from .models import TUser,Waste,ProcesssingPlant,TransportVehicle,Landfill,Waste
 import csv
 
 from django.http import HttpResponse
+def export(request):
+    response = HttpResponse(content_type='text/csv')
+
+    writer = csv.writer(response)
+    writer.writerow(['Date', 'Waste'])
+
+    for member in WasteML.objects.all().values_list('date', 'waste_qty'):
+        writer.writerow(member)
+
+    response['Content-Disposition'] = 'attachment; filename="waste.csv"'
+
+    return response
+
+
+
+def mlscript():
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from pathlib import Path
+    import os
+    import seaborn as sns
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    path=os.path.join(BASE_DIR,'invt/templates/users/ml.csv')
+    
+    df=pd.read_csv(path)
+    df.sort_values(by=['Date'],axis=0,inplace=True)
+    last=df.tail(1)['Date']
+    
+    
+    df=df.dropna()
+    import datetime as dt
+    def convert_date_to_ordinal(date):
+        t=dt.datetime.strptime(str(date),'%Y-%M-%d').date()
+        return t.toordinal()
+    # df['Date'] = pd.to_datetime(df['Date'])
+    df['Date']=df['Date'].apply(convert_date_to_ordinal)
+    X=df[['Date']]
+    y=df[['Waste']]
+
+    from sklearn.model_selection import train_test_split
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.8, random_state=101)
+
+    from sklearn.linear_model import LinearRegression
+    lm= LinearRegression()
+    lm.fit(X_train,y_train)
+    from sklearn import metrics
+    import datetime
+    r=str(last).split('\n')
+    r1=r[0].split(' ')
+    r2=r1[4].split('-')
+    dt = datetime.datetime(int(r2[0]), int(r2[1]), int(r2[2]))
+    end = datetime.datetime(int(r2[0])+2, int(r2[1]), int(r2[2]), 23, 59, 59)
+    step = datetime.timedelta(days=1)
+    result = []
+    while dt < end:
+        result.append(dt.strftime('%Y-%m-%d'))
+        dt += step
+    import datetime as dt
+    def convert_date_to_ordinal(date):
+        t=dt.datetime.strptime(date,'%Y-%M-%d').date()
+        return t.toordinal()
+
+    for z in range(len(result)):
+        result[z]=convert_date_to_ordinal(result[z])
+    df2=pd.DataFrame(result)
+    pre=lm.predict(df2)
+    orignal2=df2[0].map(dt.datetime.fromordinal)
+    import matplotlib.pyplot as plt
+    # line 1 points
+    x1 =orignal2
+    y1 =pre
+    # plotting the line 1 points 
+    # plt.plot(x1, y1, label = "Prediction")
+    # plt.xlabel('Timeframe')
+    # # Set the y axis label of the current axis.
+    # plt.ylabel('Waste')
+    # # Set a title of the current axes.
+    # plt.title('Waste vs Date')
+    # # show a legend on the plot
+    # print("Running")
+    # plt.legend()
+    # # Display a figure.
+    # plt.show()
+    import matplotlib.pyplot as plt
+    from io import StringIO
+    import numpy as np
+    from django.http import HttpResponse
+    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+    from matplotlib.figure import Figure
+    fig = plt.figure()
+    plt.plot(x1,y1)
+    plt.xlabel('Timeframe')
+    plt.ylabel('Waste')
+    plt.title('Waste vs Date')
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg')
+    imgdata.seek(0)
+    data = imgdata.getvalue()
+    return data
+def graphh(request):
+    #context['graph'] = mlscript()
+    export(request)
+    
+    return render(request, 'utility/graph.html', {'graph':mlscript()})
 
 def register(request):
     if request.method=='POST':
@@ -35,6 +141,7 @@ def home(request):
     tv_list = TransportVehicle.objects.all()
     pp_list = ProcesssingPlant.objects.all()
     lf_list = Landfill.objects.all()
+    mlscript()
     return render(request,'users/home.html',{'wuser':wuser,'waste_list':waste_list,
     'waste_list_admin':waste_list_admin,'tv_list':tv_list,'pp_list':pp_list,'lf_list':lf_list,}) 
 
@@ -159,15 +266,3 @@ def update_pp(request, pk):
 def update_lf(request, pk):
     return edit_item(request, pk, Landfill, LfUpdateForm)
 
-def export(request):
-    response = HttpResponse(content_type='text/csv')
-
-    writer = csv.writer(response)
-    writer.writerow(['Date', 'Waste'])
-
-    for member in WasteML.objects.all().values_list('date', 'waste_qty'):
-        writer.writerow(member)
-
-    response['Content-Disposition'] = 'attachment; filename="waste.csv"'
-
-    return response
