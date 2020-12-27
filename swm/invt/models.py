@@ -4,20 +4,6 @@ from django.utils import timezone
 from django.core.validators import MinValueValidator,MaxValueValidator
 from django.contrib import auth
 
-""" class Address(models.Model):
-    area=models.CharField(max_length=150,blank=False)
-    landmark=models.CharField(max_length=150,blank=True)
-    city=models.CharField(max_length=50,blank=False)
-    state=models.CharField(max_length=30,blank=False)
-    zipcode=models.IntegerField(validators=[MaxValueValidator(999999),MinValueValidator(100000)],blank=False)
- """
-""" class TUser(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    area=models.CharField(max_length=150,blank=False)
-    landmark=models.CharField(max_length=150,blank=True)
-    city=models.CharField(max_length=50,blank=False)
-    state=models.CharField(max_length=30,blank=False)
-    zipcode=models.IntegerField(validators=[MaxValueValidator(999999),MinValueValidator(100000)],blank=False) """
 class TUser(auth.models.User, auth.models.PermissionsMixin):
     area=models.CharField(max_length=150,blank=False)
     landmark=models.CharField(max_length=150,blank=True)

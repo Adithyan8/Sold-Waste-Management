@@ -1,15 +1,7 @@
 from django import forms
-#from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import TUser,Waste,TransportVehicle,ProcesssingPlant,Landfill
 
-""" class UserRegisterForm(UserCreationForm,forms.ModelForm):
-    email = forms.EmailField() #by default required-true
-
-    class Meta:
-        model = TUser
-        fields = ['username', 'email', 'password1', 'password2','area','landmark','city','state','zipcode'] #password2 - Confirmation Password
- """
 class UserRegisterForm(UserCreationForm):
     class Meta:
         fields = ["username", "email", "password1", "password2",'area','landmark','city','state','zipcode']

@@ -49,7 +49,6 @@ def mlscript():
     def convert_date_to_ordinal(date):
         t=dt.datetime.strptime(str(date),'%Y-%M-%d').date()
         return t.toordinal()
-    # df['Date'] = pd.to_datetime(df['Date'])
     df['Date']=df['Date'].apply(convert_date_to_ordinal)
     X=df[['Date']]
     y=df[['Waste']]
@@ -84,21 +83,8 @@ def mlscript():
     pre=lm.predict(df2)
     orignal2=df2[0].map(dt.datetime.fromordinal)
     import matplotlib.pyplot as plt
-    # line 1 points
     x1 =orignal2
     y1 =pre
-    # plotting the line 1 points 
-    # plt.plot(x1, y1, label = "Prediction")
-    # plt.xlabel('Timeframe')
-    # # Set the y axis label of the current axis.
-    # plt.ylabel('Waste')
-    # # Set a title of the current axes.
-    # plt.title('Waste vs Date')
-    # # show a legend on the plot
-    # print("Running")
-    # plt.legend()
-    # # Display a figure.
-    # plt.show()
     import matplotlib.pyplot as plt
     from io import StringIO
     import numpy as np
@@ -116,9 +102,6 @@ def mlscript():
     data = imgdata.getvalue()
     return data
 def graphh(request):
-    #context['graph'] = mlscript()
-    #export(request)
-    
     return render(request, 'utility/graph.html', {'graph':mlscript()})
 
 def register(request):
