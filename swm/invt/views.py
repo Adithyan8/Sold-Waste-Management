@@ -94,7 +94,7 @@ def mlscript():
     fig = plt.figure(figsize=(9,7))
     plt.plot(x1,y1)
     plt.xlabel('Timeframe')
-    plt.ylabel('Waste')
+    plt.ylabel('Waste(in quintals )')
     plt.title('Waste vs Timeframe')
     imgdata = StringIO()
     fig.savefig(imgdata, format='svg')
