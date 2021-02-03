@@ -160,10 +160,10 @@ def waste_form(request):
             if WasteML.objects.filter(date=formm.created_date).count()>0:   #same date has some entry
                 waste1=WasteML.objects.get(date=formm.created_date)
                 waste1.waste_qty=pp_temp.total_waste
-                waste1.save()
+                waste1.save(using="wasteml")
             else:
                 waste1 = WasteML.objects.create(ppname=pp_temp,date=formm.created_date,waste_qty=pp_temp.total_waste)
-                waste1.save()                                               #same date has no entry
+                waste1.save(using="wasteml")                               #same date has no entry
 
             return redirect(r'home')
     else:    
